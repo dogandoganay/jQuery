@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Not so Fast, jQuery</title>
+    <script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+    <style>
+      .emphasis{
+        font-weight: bold;
+      }
+    </style>
+    <!--
+    <script>
+      $('li:first-child').addClass('emphasis')
+    </script>
+
+    it doesnt work because we are manipulating the DOM before even it is loaded. there is no list item as this script runs
+
+    to get around it, we can easily move our script tag to the bottom, right before body tag ends. or...
+
+    document.ready?
+
+
+    -->
+
+    <script>
+    $(document).ready(function(){
+      $('li:first-child').addClass('emphasis');
+    });
+    /*
+    $(document).ready(function(){
+      so this function helps jQuery to run within the first milisecond when DOM is ready
+    });
+
+    $(function(){
+      this is a shorthand for document.ready
+    });
+    */
+    </script>
+
+  </head>
+  <body>
+
+    <ul>
+      <li>hello</li>
+      <li>hello</li>
+      <li>hello</li>
+    </ul>
+
+
+  </body>
+</html>

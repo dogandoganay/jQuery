@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>The Basics of Querying the DOM</title>
+
+    <style>
+      /*
+      li{
+        color: black;
+      }
+      */
+    /*
+    .emphasis{
+      color: green;
+    }
+    */
+
+    .container{
+      color: red;
+    }
+
+      /*
+      ul.emphasis > li{
+        color:red;
+      }
+      */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to My Website</h1>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <div class="container">
+        <ul class="emphasis container">
+          <li>item</li>
+          <li>item2</li>
+          <li>item3</li>
+          <li>item4</li>
+          <li>
+            <ul>
+              <li>hello from the nest.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+
+    <script>
+      //$('ul.emphasis').children('li').css('color', 'green');
+      //[children] it is going to look for immidate children of a parent
+      //it is like css's [ul.emphasis > li]
+
+      //$('ul.emphasis').find('li').css('color', 'green');
+      //[find] it is going to continue searching, even beyond the direct children
+
+      //$('ul.emphasis').children('li:first-child').addClass('emphasis'); -> css selector
+      //$('ul.emphasis').children('li:nth-child(1)').addClass('emphasis'); -> css selector
+      //$('ul.emphasis').children('li:first').addClass('emphasis'); // -> jQuery provides first.
+      // if there is a css alternative, use that one because this will give browsers' parsers an advantage and it will be loaded a little bit more faster
+      //$('ul.emphasis').children('li').first().addClass('emphasis');
+
+      //$('ul.emphasis').children('li').eq(1).text('added with eq method: eq(1)'); //0 based like arrays
+      //$('ul.emphasis').children('li:nth-child(2)').text('nth child selector: nth2');
+
+      //$('ul.emphasis').children('li').eq(2).next().text('added with jQuery: next method after eq(2)');
+      //$('ul.emphasis').children('li').eq(1).prev().text('added with jQuery: prev method after eq(1)');
+      //pay attention! how cool and smooth is the chaining.
+      //this also can be done like: $('ul.emphasis li:nth-child(2)').text('added with jQuery but selected with CSS')
+
+      //and look below for chaining with indentation
+      /*
+      $('ul.emphasis')
+        .children('li')
+          .eq(1)
+            .prev()
+              .text('added with jQuery: prev method after eq(1)');
+      */
+
+      //$('li').parent().removeClass('container');
+      //[removeClass] is oppesite of [addClass] as expected
+      //parent('ul') <- to be more specific
+
+      //$('li').parents().removeClass('container');
+      //pay attention to the difference between parent() and parents()
+      //parents('div.container') <- to be more specific
+      //there is also a method [closest()] -> go ahead and take a look https://api.jquery.com
+
+
+      console.log($('ul').parents('.container')); //returns all the elements that match (all the way up through DOM tree)
+      console.log($('ul').closest('.container')); //returns the very first element that matches
+      // with the closest method; if matches with itself, returns itself. otherwise looks through all the way up until it finds
+
+    </script>
+  </body>
+</html>
