@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Events 101</title>
+    <link rel="stylesheet" href="04day.css" >
+    <script src="https://code.jquery.com/jquery-2.2.1.js"></script>
+    <script>
+
+    </script>
+  </head>
+  <body>
+    <h1>My Website</h1>
+    <!-- HTML5 custom attributes -->
+    <!-- as long as it starts with [data-] you can set them up -->
+    <!-- even like [data-virtzirt] -->
+    <button data-file="day">Day</button>
+    <button data-file="night">Night</button>
+
+
+    <script>
+    //(function(){
+    //this is just to prevent all the variables being global
+
+    //for instance;
+    //var myVar;
+    //window.myVar -> accesible from all the way window object
+
+    //})();
+
+    (function(){
+      var link = $('link');
+      $('button').on('click', function(){  //$('button').click(function(){   <- click method is a helper. actually it goes and triggers a related function. so we are just writing it direct access
+
+        //pay attention what is being referred to!
+        //console.log(this); <- DOM object, not jQuery
+        //console.log($(this)) <- now it is jQuery
+        //[this] is not jQuery, I cannot use jQuery's methods like [this.click]
+        //so I need wrap it with jQuery once again! -> $(this)
+        //now, I can use like -> $(this).click
+
+        //another point; instead of diving into the DOM everytime that we need and run jQuery
+        //define it and then use it (like caching). so we dive into the DOM minimum number of times
+        //$('this');
+
+        //if attr takes 1 argument, returns it. if it takes 2 arguments, sets that attr
+
+        /*
+        //if I had the stylesheet files named with the same name of buttons, that would help but...
+        var stylesheet = $(this).text().toLowerCase();
+        console.log(stylesheet);
+        */
+
+        //$(this).attr('data-file'); <- the same thing with [attr]
+        var $this = $(this),
+            stylesheet = $this.data('file'); //instead of using multiple var statement, seperate them with comma
+
+        link.attr('href','04' + stylesheet + '.css');
+        $this
+          .siblings('button')
+            .removeAttr('disabled')
+            .end() //can be used multiple like .end().end()
+
+          .attr('disabled','true');
+      });
+    })();
+    </script>
+  </body>
+</html>
