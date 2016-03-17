@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Events 201</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-2.2.1.js"></script>
+  </head>
+  <body>
+    <dl>
+      <dt>This is the question</dt>
+      <dd>anddd this will be the answer</dd>
+      <dt>This is the question</dt>
+      <dd>anddd this will be the answer</dd>
+      <dt>This is the question</dt>
+      <dd>anddd this will be the answer</dd>
+      <dt>This is the question</dt>
+      <dd>anddd this will be the answer</dd>
+      <dt>This is the question</dt>
+      <dd>anddd this will be the answer</dd>
+    </dl>
+
+
+    <script type="text/javascript">
+    (function(){
+      //var dd = $('dd'); <- we will not use this, just for caching example
+      //dd.hide(); //show(), fadeIn(), slideOut(), toggle() etc.
+      //instead of hide method we can add a css class that does the same thing!
+      //dd.addClass('hide');
+
+      //dd.filter(':nth-child(n+4)').hide();
+
+      $('dd').filter(':nth-child(n+4)').hide();
+
+      $('dl').on('mouseenter','dt', function(){ //instead of making it runs for every single dt, we are ataching it dt's parent (which is more general) and just before the function we are implementing what we are looking for in dl section
+        $(this)
+          .next()
+          .slideDown(200)
+            .siblings('dd')
+            .slideUp(200); //or with default value of it just .slideUp()
+      });
+    })();
+    </script>
+  </body>
+</html>
