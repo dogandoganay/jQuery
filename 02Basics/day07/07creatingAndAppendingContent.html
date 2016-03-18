@@ -3,8 +3,121 @@
   <head>
     <meta charset="utf-8">
     <title>07 Creating and Appending Content</title>
+    <script src="jquery-2.2.1.js"></script>
+    <style>
+      article{
+        width: 600px;
+        margin: auto;
+      }
+      blockquote.bq{
+        float: right;
+        background: #e3e3e3;
+        font-size: 2em;
+        width: 30%;
+      }
+      .callout{
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
+    <article>
+      <h1>My Awesome Post</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <p>
+        <span class="callout">Lorem ipsum dolor </span>sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <span class="callout">Duis aute irure dolor in</span>  reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </article>
+
+    <script>
+    (function(){
+      /*
+      //adds at the end of the jQuery context that we passed
+      $('article').append('appended with jQuery append()');
+
+      //adds before the jQuery context that we passed
+      $('article').prepend('prepended with jQuery prepend()');
+
+      //what if we want to add it to a specific point? jQuery is very good at that. it is like the way you speak
+      $('h1').after('added with jQuery after h1');
+      $('h1').before('added with jQuery before h1');
+
+      //gets the first paragraph, adds before it
+      $('p').first().before('added with jQuery');
+
+      (appendTo - prependTo - after - before)
+      what if you are beginning with HTML fragment?
+
+      //the first is just to show how the people worked in the past
+      $('<h2> created h2 with jQuery</h2>').appendTo('article');
+      //this is not a good way to do it. how about h2 has a class?
+      $('<h2 class=myClass> created h2 with jQuery</h2>').appendTo('article');
+
+      //if we pass HTML tags, jQuery understands what we are passing and what to do with it. it hunts down inside of itself to understand
+
+      $('<h2></h2>',{
+        text: 'hello from the object',
+        class: 'myClass',
+        name: 'myID'
+      }).appendTo('article');
+
+
+      //after doesnt work with this code because we are creating an element in the DOM but while it is workingi it doesnt know where to put it. there is no element to add before or after. so here comes another method.
+
+      $('<h2></h2>',{
+        text: 'hello from the object',
+        class: 'myClass',
+        name: 'something'
+      }).insertAfter('h1');
+
+      $('<h2></h2>',{
+        text: 'hello from the object',
+        class: 'myClass',
+        name: 'something'
+      }).insertBefore('p:nth-child(3)');
+
+      //so we added contents to the DOM. how about working with the elements that are already exists! for example; I want to grab h1 and move its position to a different place in the page
+      $('h1').appendTo('article'); <- appentTo moves exist element!
+      //but notice that it is not added after article! it is added in the article as a last member.
+
+      we are being very generic with these example. in real life you may need to use an id or class.
+      $('p').after( $('h1') );
+      <- we are getting a collection of elements because we are not specific and returns more than one result. so it does its job for each occurence
+      to avoid;
+      $('p').eq(0).after( $('h1') ); <- so now we are more specific
+
+
+      just to show an example with this particular case (I mean we are already getting the previous object of the jQuery context we passed), we will use the function. whatever comes back from the function will be used.
+      $('p').eq(0).after(function(){
+        return $(this).prev();
+      });
+
+      //you can use filter method too, to determine what to return!
+      $('p').filter(function(){
+        return whateverYouNeedToReturn;
+      });
+
+      */
+
+      var callout = $('article').find('span.callout').each(function(){
+        var $this = $(this);
+
+        $('<blockquote></blockquote>', {
+          class:'bq',
+          text: $this.text()
+
+        }).prependTo($this.closest('p'));
+      });
+    })();
+    </script>
 
   </body>
 </html>
