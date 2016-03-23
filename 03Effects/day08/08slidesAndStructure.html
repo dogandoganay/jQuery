@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>08 Slides and Structure</title>
+    <script src="jquery-2.2.1.js"></script>
+    <style>
+      body{
+        width: 600px;
+        margin: auto;
+        font-family: sans-serif;
+      }
+      #contact{
+        background: #e3e3e3;
+        padding: 1em 2em;
+        position: relative;
+        box-shadow: 0px 0px 10px #000;
+        border-radius: 0px 0px 5px 5px;
+      }
+      .js #contact{
+        position: absolute;
+        top: 0;
+        width: inherit;
+        display: none;
+      }
+      #contact h2{
+        margin-top: 0;
+      }
+      #contact ul {
+        padding: 0;
+      }
+      #contact li{
+        list-style: none;
+        margin-bottom: 1em;
+      }
+
+      /* for the close button on form */
+      .close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-weight: bold;
+        font-family: sans-serif;
+        cursor: pointer;
+      }
+
+      /* form inputs */
+      input, textarea{
+        width: 100%;
+        line-height: 2em;
+      }
+      input[type=submit]{
+        width: auto;
+      }
+      label{
+        display: block;
+        text-align: left;
+      }
+
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>My Awesome Post</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <p>
+         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <p>
+         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <p>
+         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </article>
+
+    <div id="contact">
+      <h2>Contact Me</h2>
+      <form action="#">
+        <ul>
+          <li>
+            <label for="name">Name:</label>
+            <input name="name" id="name">
+          </li>
+          <li>
+            <label for="email">E-mail Address:</label>
+            <input name="email" id="email">
+          </li>
+          <li>
+            <label for="comments">What's Up?:</label>
+            <textarea name="comments" id="comments" rows="10" cols="30"></textarea>
+          </li>
+          <li>
+            <input type="submit" value="Submit">
+          </li>
+        </ul>
+      </form>
+    </div>
+
+
+
+    <script>
+      (function(){
+      /*
+      //first of all do not immidiately jump into the jQuery first. Make an HTML layout that works fine without javascript then upgrade it using javascript (because some users might use their javascript turned of and still you want to give them full view of your content!) something to think about!
+
+      //ok, first decision to make; can we use javascipt here. the answer: if any javascript is read, yes we can use it!
+      $('html').addClass('js');
+      //if this is read, javascipt is available. so our css style also will take its effect.
+
+      //we are creating a parent object. pay attention, object!
+      var contactForm = {
+      init:function(){
+
+        }
+      };
+      //init is like the constructor method in the OOP!
+      //at the end we will call it like;
+      contactForm.init();
+
+      //lets add a button that we can click. later on we can add an event listener to it!
+      $('<button></button>', {
+        text:'Contact Me'
+      })
+        .insertAfter('article');
+
+      //so instead of using anonymous function all the time, we can call our own methods. that is what we are going to do, and later on we will create the method.
+      .insertAfter('article')
+      .on('click',this.show);
+      //so we are calling show method here. it should be created then!
+
+      show: function() {
+        contactForm.close.call(contactForm.container); //if we call it like contactForm.close(), $this will be referring the contactForm object, not the container in the close function. to avoid it, we are using in this way. inside the call, we can pass the argument that we want it to be what this will be referring to.
+        contactForm.container.slideDown();
+      }
+      //this.container.slideDown() would not work because within the callback function, this refers to the button that was clicked, as we done at one of the previous example
+
+      //ok everything goes alright, but when it is slided down, I should have a way to get rid of the contact form. to do that, we'll create another function.
+
+      close: function() {
+        var $this = $(this); //#contact div
+        $('<span class=close> X </span>')
+          .prependTo(this)
+          .on('click', function(){
+            $this.slideUp();
+          })
+      }
+      //in this close function there is lot to going on. [this] will refer to what? it is confusing but it will refer what we want it to be refered. for example, in the first block with span, we want [this] refer to the contact form [$('#contact')]. there is no confusion here. how about when we attached a callback function to it like it happened here after onclick method? it will point out the span (because it is span's callback function). so, how can we rollback and refer to #contact div again? as we did before, we will cache it! [var $this = $('this')]
+
+
+      //------------------------------------------
+      //so, until here everthing should be like the one below. it works perfectly fine. but we are going to move forward and make some arrangements to make it better.
+
+      $('html').addClass('js');
+
+      var contactForm = {
+          container: $('#contact'),
+
+        init: function() {
+          $('<button></button>', {
+            text:'Contact Me'
+          })
+            .insertAfter('article')
+            .on('click',this.show); //we are not writing show() even though it is a method because if we do in that way, javascipt immidiately calls that function as it goes through top-to-bottom. we just want it to call the function on the condition of 'click'. so that's why...
+
+            //or we can simply pass an anonymous function... but the indentation will be waaaaay more than we expect. we can easily lost track of where we are! something to think-consider about!
+        },
+
+        show: function() {
+          contactForm.close.call(contactForm.container);
+          contactForm.container.slideDown();
+
+        },
+
+        close: function() {
+          var $this = $(this); //#contact div
+          $('<span class=close> X </span>')
+            .prependTo(this)
+            .on('click', function(){
+              $this.slideUp();
+            })
+        }
+      };
+      contactForm.init();
+
+      //------------------------------------------
+
+
+      */
+      $('html').addClass('js');
+
+      var contactForm = {
+        container: $('#contact'),
+
+        config: {
+            effect: 'slideToggle', //slideUp & slideDown (same can be used for fade too)
+            speed: 500
+
+            //for example, if user sends us an effect type, it will override the effect that we define here manually. and if the user does not send any speed argument, speed will remain at the value we define.
+        },
+
+        init: function(config) {//this config arguments takes what it is sent from the contactForm.init. we passed an object inside curly brackets {}
+
+          //.extend() is one of the jQuery's core methods that allows us to apply a default object which we already created (you can see on the top of init function!)
+          $.extend(this.config, config); //it gets my object, overrides with what I passed inside
+
+          $('<button></button>', {
+            text:'Contact Me'
+          })
+            .insertAfter('article')
+            .on('click',this.show); //we are not writing show() even though it is a method because if we do in that way, javascipt immidiately calls that function as it goes through top-to-bottom. we just want it to call the function on the condition of 'click'. so that's why...
+
+            //or we can simply pass an anonymous function... but the indentation will be waaaaay more than we expect. we can easily lost track of where we are! something to think-consider about!
+        },
+
+        /*
+        show: function() {
+          contactForm.close.call(contactForm.container);
+          contactForm.container[contactForm.config.effect](contactForm.config.speed);//this is array notation. inside of the brackets means: slideToggle, but we are getting this dynamically now. it is identical to -> contactForm.container.slideToggle();. same thing for the speed
+        },
+        */
+
+        //I am re-arranging the show function with variables to see everything easily
+        show: function() {
+          var cf = contactForm,
+              container = cf.container,
+              config = cf.config;
+
+          if (container.is(':hidden')){//is is a cool method =) it means for this case, if display none. it is just for the control. I did not exactly understand.
+            cf.close.call(container);
+            container[config.effect](config.speed);
+          }
+
+        },
+
+        close: function() {
+          var $this = $(this); //#contact div
+
+          if ($this.find('span.close').length) return; //it is just to prevent adding spans for everytime we click the button. so we are looking for it, but even if there is nothing like that something still will be returning. that's why we are checking the length of it. or we could write something like -> find('span.close').[0] which means the first item in the array. keep track of this from the chrome's inspection screen.
+
+          $('<span class=close> X </span>')
+            .prependTo(this)
+            .on('click', function(){
+              $this[contactForm.config.effect](contactForm.config.speed);
+            })
+        }
+      };
+
+      contactForm.init({
+        effect: 'fadeToggle',
+        speed: 1000
+      });
+
+      })();
+
+
+      /*
+      Commonly we will NOT need this level of control over all the definitions and configs, but it is here just to learn. These are needed for mostly creating plugins
+      */
+    </script>
+  </body>
+</html>
