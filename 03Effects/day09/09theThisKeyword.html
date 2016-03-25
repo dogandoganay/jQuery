@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>09 The This Keyword</title>
+    <script src="jquery-2.2.1.js"></script>
+  </head>
+  <body>
+
+    <a href="https://google.com">Click Me</a>
+
+
+  <script>
+  /*
+  console.log(this); // this refers to "window" here. This will refer to whatever object owns it
+
+  (function doSomething(){
+    console.log(this);
+  })() //even here it refers to "window"
+
+  //what if we check "this" when the anchor tag is clicked
+
+  function doSomething(){
+    console.log(this);
+  }
+  $('a').on('click',doSomething); //it shows what is clicked?
+  //in this particular case anchor tag has a default action (that action is, when it is clicked it should redirect to href attribute). what if we want to click but cancel that default action. it is like saying "nope do not go there, instead of that".
+
+  //our callback function will receive an event object. (you can call it whatever you want but common thing is to call "e"). this will contain the information about the event itself. also we can prevent its default action with this event.
+  function doSomething(e){
+    e.preventDefault();
+    console.log(e);
+    console.log(this);
+  }
+  $('a').on('click',doSomething); // so "this" no longer refers to parent object , now refers to new object that contains it.
+
+  //it does not matter if it within the object!
+  var obj = {
+    doIt: function(e){
+      e.preventDefault();
+      console.log(this);
+    }
+  }
+  $('a').on('click', obj.doIt);
+  //so if we want "this" to refer its parent (I mean instead of the link that was clicked, I want it to be refering to "obj"), I can handle it with a callback function!
+
+  var obj = {
+    doIt: function(){
+      console.log(this);
+    }
+  }
+  $('a').on('click', function(e){
+    obj.doIt();
+    e.preventDefault();
+  });
+  //this time preventDefault was in our callback funtion, because "this" refers to obj after now. doIt is not related to anchor anymore!
+
+  //another question is coming up! what if we want to call "doIt" method, but still want "this" refer to anchor element. this time we would .call() the element. we would call the method and pass an argument to say what it should represent within the "this"
+  var obj = {
+    doIt: function(){
+      console.log(this);
+    }
+  }
+  $('a').on('click', function(e){
+    obj.doIt.call(this); //I know that this = anchor that we clicked
+    e.preventDefault();
+  });
+  //there is also .apply() method that we can pass variables as array. but with call, we can simply send comma separated list. depends on the needs, just to be aware of. by the way, call and apply methods are just JavaScipt based, nothing related to jQuery.
+
+  //lets rollback like the one before and try out .proxy() method. "this" will refer to anchor again for now, but with proxy we will pass an argument to decide what it should refer
+  var obj = {
+    doIt: function(e){
+      console.log(this);
+      e.preventDefault();
+    }
+  }
+  $('a').on('click', $.proxy(obj.doIt, obj) );
+  //in the line above, we are passing 2 arguments. 1st one what it is the method we are going to call. 2nd one what will be treated as "this". it depends on our goal. in this case we wanted it to be "obj".
+
+  */
+  var obj = {
+    doIt: function(e){
+      console.log(this);
+      e.preventDefault();
+    }
+  }
+  $('a').on('click', $.proxy(obj.doIt, obj) );
+
+  </script>
+  </body>
+</html>
